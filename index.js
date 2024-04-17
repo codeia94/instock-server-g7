@@ -10,9 +10,6 @@ app.use(cors());
 app.use(express.json());
 
 
-// Not sure if this is necessary since /warehouses is already defined in warehouseRouter
-app.use("/", warehouseRouter);
-
 app.use("/api/warehouses", warehouseRouter);
 
 

@@ -5,5 +5,8 @@ const warehouseController = require("../controllers/warehouse-controller");
 router.route("/")
 	.get(warehouseController.index);
 
+router.route("/")
+	.post(warehouseController.add);
+
 
 module.exports = router;
