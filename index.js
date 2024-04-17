@@ -13,7 +13,7 @@ app.use(express.json());
 // Not sure if this is necessary since /warehouses is already defined in warehouseRouter
 app.use("/", warehouseRouter);
 
-app.use("/warehouses", warehouseRouter);
+app.use("/api/warehouses", warehouseRouter);
 
 
 app.listen(port, () => {
