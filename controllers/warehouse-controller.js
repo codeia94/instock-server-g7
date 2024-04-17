@@ -9,7 +9,20 @@ const index = async (_req, res) => {
 	}
 };
 
+const remove = async (req, res) => {
+	try {
+		const warehouse = await knex("warehouses").where({ id: req.body.warehouse }).delete();
+		
+		if (!warehouse) {
+			return res.status(404).json({message: `Could not find warehouse: ${req.body.id}`})
+		}
+
+		res.status(204).json({message: `Successfully deleted warehouse: ${req.body.id}`})
+	} catch (error) {
+		res.status(400).send(`Error deleting warehouse: ${error}`);
+	}
+};
 
 module.exports = {
-	index,
+	index, remove
 };
