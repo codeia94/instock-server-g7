@@ -14,7 +14,7 @@ app.use(express.json());
 app.use("/", warehouseRouter);
 
 app.use("/warehouses", warehouseRouter);
-app.use("/inventories", inventoryRouter);
+app.use("/api/inventories", inventoryRouter);
 
 
 app.listen(port, () => {
