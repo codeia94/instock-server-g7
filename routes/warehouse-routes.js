@@ -13,6 +13,10 @@ router.route("/")
 	.post(warehouseController.add);
 
 router.route("/:id")
+<<<<<<< HEAD
 	.put(warehouseController.edit);
+=======
+	.get(warehouseController.findId);
+>>>>>>> 0177b2f6e2e313bdd5b44ebec340f40b7e89ad38
 
 module.exports = router;

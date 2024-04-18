@@ -11,6 +11,28 @@ const index = async (_req, res) => {
 	}
 };
 
+
+//Get single warehouse
+const findId = async (req, res) => {
+	try {
+		const foundId = await knex("warehouses")
+			.where({ id: req.params.id})
+			.first();
+		console.log("Found ID:", foundId);
+
+		if (!foundId) {
+			return res.status(404).json({message: `Could not find warehouse with: ${req.params.id}`})
+		}
+
+		res.json(foundId);
+
+	} catch (error) {
+		console.log(error);
+		res.status(400).send(`Error retrieving warehouse: ${error}`);
+	}
+}
+
+
 const remove = async (req, res) => {
 	try {
 		const warehouse = await knex("warehouses")
@@ -23,7 +45,7 @@ const remove = async (req, res) => {
 
 		res.status(204).json({message: `Successfully deleted warehouse: ${req.params.id}`})
 	} catch (error) {
-		res.status(400).send(`Error deleting warehouse: ${error}`);
+		res.status(404).send(`Error deleting warehouse: ${error}`);
 	}
 };
 
@@ -155,6 +177,7 @@ const edit = async (req, res) => {
 
 module.exports = {
 	index,
+	findId,
 	add,
 	remove,
 	edit
