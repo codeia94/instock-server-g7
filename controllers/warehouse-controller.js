@@ -45,7 +45,7 @@ const remove = async (req, res) => {
 
 		res.status(204).json({message: `Successfully deleted warehouse: ${req.params.id}`})
 	} catch (error) {
-		res.status(400).send(`Error deleting warehouse: ${error}`);
+		res.status(404).send(`Error deleting warehouse: ${error}`);
 	}
 };
 
