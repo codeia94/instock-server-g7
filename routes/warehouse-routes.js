@@ -9,4 +9,7 @@ router.route("/")
 router.route("/")
 	.post(warehouseController.add);
 
+router.route("/:id")
+	.put(warehouseController.edit);
+
 module.exports = router;
