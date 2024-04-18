@@ -1,5 +1,5 @@
 const knex = require("knex")(require("../knexfile"));
-const { v4: uuidv4 } = require('uuid');
+// const { v4: uuidv4 } = require('uuid');
 const {isValidEmail,isValidPhoneNumber} = require ('../helpers/validators');
 
 const index = async (_req, res) => {
@@ -13,13 +13,15 @@ const index = async (_req, res) => {
 
 const remove = async (req, res) => {
 	try {
-		const warehouse = await knex("warehouses").where({ id: req.body.warehouse }).delete();
+		const warehouse = await knex("warehouses")
+			.where({ id: req.params.id })
+			.delete();
 		
-		if (!warehouse) {
-			return res.status(404).json({message: `Could not find warehouse: ${req.body.id}`})
+			if (!warehouse) {
+			return res.status(404).json({message: `Could not find warehouse: ${req.params.id}`})
 		}
 
-		res.status(204).json({message: `Successfully deleted warehouse: ${req.body.id}`})
+		res.status(204).json({message: `Successfully deleted warehouse: ${req.params.id}`})
 	} catch (error) {
 		res.status(400).send(`Error deleting warehouse: ${error}`);
 	}
