@@ -5,8 +5,11 @@
     "email-validator": "^2.0.4",
     "express": "^4.19.2",
     "knex": "^3.1.0",
+    "mysql2": "^3.9.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
     "libphonenumber-js": "^1.10.60",
-    "mysql2": "^3.9.4",
     "uuid": "^9.0.1"
   }
 }
