@@ -45,8 +45,6 @@ const add = async (req, res) => {
 	}
 
     try {
-		
-		const currentTime = new Date().toISOString().slice(0, 19).replace('T', ' ');
 
         const result = await knex("warehouses")//contains [newly created warehouse id]
             .insert({
@@ -58,9 +56,7 @@ const add = async (req, res) => {
 				contact_name,
 				contact_position,
 				contact_phone,
-				contact_email,
-				created_at : currentTime,
-				updated_at : currentTime
+				contact_email
             });
 
             //retrieve newly created record
