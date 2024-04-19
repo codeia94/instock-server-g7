@@ -14,7 +14,7 @@ const getAllInventoryItems = async (_req, res) => {
         'inventories.updated_at',
         'warehouses.warehouse_name'  
       )
-      .join('warehouses', 'inventories.warehouse_id', 'warehouses.id'); 
+      .join('warehouses', 'inventories.warehouse_id', '=', 'warehouses.id');
 
     res.status(200).json(inventoryItems);
   } catch (error) {
@@ -22,6 +22,34 @@ const getAllInventoryItems = async (_req, res) => {
   }
 };
 
+// Get a single inventory item by ID
+const getInventoryItemById = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const inventoryItem = await knex('inventories')
+      .select(
+        'inventories.id', 
+        'warehouses.warehouse_name',
+        'inventories.item_name', 
+        'inventories.description', 
+        'inventories.category', 
+        'inventories.status', 
+        'inventories.quantity'
+      )
+      .join('warehouses', 'inventories.warehouse_id', '=', 'warehouses.id')
+      .where('inventories.id', id)
+      .first();
+
+    if (!inventoryItem) {
+      return res.status(404).json({ message: "Inventory item not found." });
+    }
+
+    res.status(200).json(inventoryItem);
+  } catch (error) {
+    res.status(400).send(`Error getting inventory item: ${error}`);
+  }
+};
 
 const add = async (req, res) => {
   const { warehouse_id, item_name, description, category, status, quantity } = req.body;
@@ -75,5 +103,5 @@ const add = async (req, res) => {
 };
 
 module.exports = {
-  getAllInventoryItems, add
+  getAllInventoryItems, getInventoryItemById, add
 };
