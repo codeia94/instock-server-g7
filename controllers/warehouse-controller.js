@@ -12,7 +12,7 @@ const index = async (_req, res) => {
 };
 
 
-//Get single warehouse
+//GET single warehouse
 const findId = async (req, res) => {
 	try {
 		const foundId = await knex("warehouses")
@@ -29,6 +29,30 @@ const findId = async (req, res) => {
 	} catch (error) {
 		console.log(error);
 		res.status(400).send(`Error retrieving warehouse: ${error}`);
+	}
+}
+
+
+//GET inventories by warehouse id
+const warehouseInventories = async (req, res) => {
+	try {
+		const inventories = await knex('inventories')
+			.select(
+				'id',
+				'item_name',
+				'category',
+				'status',
+				'quantity'
+			)
+			.where ({ warehouse_id: req.params.id });
+
+		if (inventories.length === 0) {
+			return res.status(404).send(`Could not find inventories for warehouse id: ${req.params.id}`)
+		}
+			res.status(200).json(inventories);
+
+	} catch (error) {
+		res.status(400).send(`Error retrieving inventories by warehouse id: ${error}`);
 	}
 }
 
@@ -178,6 +202,7 @@ const edit = async (req, res) => {
 module.exports = {
 	index,
 	findId,
+	warehouseInventories,
 	add,
 	remove,
 	edit
