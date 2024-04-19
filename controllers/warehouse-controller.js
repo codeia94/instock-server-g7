@@ -1,5 +1,5 @@
 const knex = require("knex")(require("../knexfile"));
-const { v4: uuidv4 } = require('uuid');
+// const { v4: uuidv4 } = require('uuid');
 const {isValidEmail,isValidPhoneNumber} = require ('../helpers/validators');
 
 const index = async (_req, res) => {
@@ -11,23 +11,47 @@ const index = async (_req, res) => {
 	}
 };
 
-const remove = async (req, res) => {
+
+//Get single warehouse
+const findId = async (req, res) => {
 	try {
-		const warehouse = await knex("warehouses").where({ id: req.body.warehouse }).delete();
-		
-		if (!warehouse) {
-			return res.status(404).json({message: `Could not find warehouse: ${req.body.id}`})
+		const foundId = await knex("warehouses")
+			.where({ id: req.params.id})
+			.first();
+		console.log("Found ID:", foundId);
+
+		if (!foundId) {
+			return res.status(404).json({message: `Could not find warehouse with: ${req.params.id}`})
 		}
 
-		res.status(204).json({message: `Successfully deleted warehouse: ${req.body.id}`})
+		res.json(foundId);
+
 	} catch (error) {
-		res.status(400).send(`Error deleting warehouse: ${error}`);
+		console.log(error);
+		res.status(400).send(`Error retrieving warehouse: ${error}`);
+	}
+}
+
+
+const remove = async (req, res) => {
+	try {
+		const warehouse = await knex("warehouses")
+			.where({ id: req.params.id })
+			.delete();
+		
+			if (!warehouse) {
+			return res.status(404).json({message: `Could not find warehouse: ${req.params.id}`})
+		}
+
+		res.status(204).json({message: `Successfully deleted warehouse: ${req.params.id}`})
+	} catch (error) {
+		res.status(404).send(`Error deleting warehouse: ${error}`);
 	}
 };
 
 const add = async (req, res) => {
 
-	console.log("Request Body:", req.body);
+	
 
     // add the validation
     const {warehouse_name,
@@ -88,9 +112,73 @@ const add = async (req, res) => {
     }
 };
 
+const edit = async (req, res) => {
+	const {
+        id,
+        warehouse_name,
+        address,
+        city,
+        country,
+        contact_name,
+        contact_position,
+        contact_phone,
+        contact_email
+    } = req.body;
+	
+
+	if (!warehouse_name|| !address || !city || !country || !contact_name || !contact_position || !contact_phone || !contact_email ) {
+        return res.status(400).json({
+            message: "Please provide missing data",
+          });  
+    }
+
+	if(!isValidEmail(contact_email)){
+		return res.status(400).json({
+            message: "Please enter valid email"
+          });  
+	}
+
+
+	if(!isValidPhoneNumber(contact_phone)){
+		return res.status(400).json({
+            message: "Please enter valid phone number"
+          });  
+	}
+	try{
+		
+		const updateWarehouse = await knex('warehouses')
+            .where({ id: req.params.id })
+			.update({
+				warehouse_name,
+                address,
+                city,
+                country,
+                contact_name,
+                contact_position,
+                contact_phone,
+                contact_email
+			});
+		if(!updateWarehouse)
+		{
+			return res.status(404).json({ error: "Warehouse not found" });
+		}
+		
+		const updatedWarehouse = await knex("warehouses").where({ id:req.params.id }).first();
+		res.status(200).json(updatedWarehouse);
+		
+	}
+	catch (error) {
+        console.error("Error:", error);
+        res.status(500).json({ error: "Unable to update warehouse" });
+    }
+
+};
+
 
 module.exports = {
 	index,
+	findId,
 	add,
-	remove
+	remove,
+	edit
 };
