@@ -13,8 +13,7 @@ router.route("/")
 	.post(warehouseController.add);
 
 router.route("/:id")
-	.put(warehouseController.edit);
-router.route("/:id")	
+	.put(warehouseController.edit)	
 	.get(warehouseController.findId);
 
 module.exports = router;
