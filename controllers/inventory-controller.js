@@ -43,12 +43,7 @@ const add = async (req, res) => {
     })
   }
 
-  console.log(`quantity: ${quantity}`)
-  const num = Number(quantity)
-  console.log(`num is: ${num}`)
-  const type = typeof(num)
-  console.log(type)
-  if (typeof num !== "number") {
+  if (isNaN(quantity) || Number(quantity) < 0){
     return res.status(400).json({
       message: "Quantity value must be a number"
     })
