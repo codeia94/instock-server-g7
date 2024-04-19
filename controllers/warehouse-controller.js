@@ -18,8 +18,6 @@ const findId = async (req, res) => {
 		const foundId = await knex("warehouses")
 			.where({ id: req.params.id})
 			.first();
-		console.log("Found ID:", foundId);
-
 		if (!foundId) {
 			return res.status(404).json({message: `Could not find warehouse with: ${req.params.id}`})
 		}
