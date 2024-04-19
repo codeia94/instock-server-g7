@@ -74,6 +74,23 @@ const add = async (req, res) => {
   }
 };
 
+const remove = async (req, res) => {
+	try {
+		const inventory = await knex("inventories")
+			.where({ id: req.params.id })
+			.delete();
+		
+			if (!inventory) {
+			return res.status(404).json({message: `Could not find inventory: ${req.params.id}`})
+		}
+
+		res.status(204).json({message: `Successfully deleted inventory: ${req.params.id}`})
+	} catch (error) {
+		res.status(404).send(`Error deleting inventory: ${error}`);
+	}
+};
+
 module.exports = {
-  getAllInventoryItems, add
+  getAllInventoryItems, add,
+  remove
 };
