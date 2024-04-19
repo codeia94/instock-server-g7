@@ -5,4 +5,7 @@ router.route("/")
 	.get(inventoryController.getAllInventoryItems)
 	.post(inventoryController.add);
 
+router.route('/:id')
+	.get(inventoryController.getInventoryItemById);
+
 module.exports = router;
