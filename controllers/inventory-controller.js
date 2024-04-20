@@ -43,7 +43,7 @@ const add = async (req, res) => {
     })
   }
 
-  if (typeof quantity !== 'number') {
+  if (isNaN(quantity) || Number(quantity) < 0){
     return res.status(400).json({
       message: "Quantity value must be a number"
     })
