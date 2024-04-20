@@ -6,8 +6,8 @@ router.route("/")
 	.post(inventoryController.add);
 
 router.route('/:id')
-	.get(inventoryController.getInventoryItemById);
-	.delete(inventoryController.remove);
+	.get(inventoryController.getInventoryItemById)
+	.delete(inventoryController.remove)
 	.put(inventoryController.edit);	
 
 module.exports = router;
