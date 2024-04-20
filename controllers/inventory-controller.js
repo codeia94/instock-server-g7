@@ -176,6 +176,5 @@ const edit = async (req,res) => {
 };
 
 module.exports = {
-  getAllInventoryItems, getInventoryItemById, add
-  remove,edit,develop
+  getAllInventoryItems, getInventoryItemById, add, remove,edit
 };
