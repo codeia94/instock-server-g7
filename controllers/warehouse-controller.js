@@ -1,5 +1,4 @@
 const knex = require("knex")(require("../knexfile"));
-// const { v4: uuidv4 } = require('uuid');
 const {isValidEmail,isValidPhoneNumber} = require ('../helpers/validators');
 
 const index = async (_req, res) => {
@@ -25,7 +24,7 @@ const findId = async (req, res) => {
 		res.json(foundId);
 
 	} catch (error) {
-		console.log(error);
+		console.error(error);
 		res.status(400).send(`Error retrieving warehouse: ${error}`);
 	}
 }
@@ -72,9 +71,6 @@ const remove = async (req, res) => {
 };
 
 const add = async (req, res) => {
-
-	
-
     // add the validation
     const {warehouse_name,
 		address,
