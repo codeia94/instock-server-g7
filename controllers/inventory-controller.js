@@ -65,7 +65,6 @@ const add = async (req, res) => {
     .first();
 
   if (!warehouse) {
-    console.log("No warehouse id match");
     return res.status(400).json({
       message: "Invalid warehouse id"
     })
@@ -133,7 +132,6 @@ const edit = async (req,res) => {
     .first();
 
   if (!warehouse) {
-      console.log("No warehouse id match");
       return res.status(400).json({
         message: "Invalid warehouse id"
       })
