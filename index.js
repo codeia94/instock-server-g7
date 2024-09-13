@@ -10,11 +10,6 @@ app.use(cors());
 app.use(express.json());
 
 
-// Not sure if this is necessary since /warehouses is already defined in warehouseRouter
-
-// warehouseRouter defined twice so it was causing conflict?
-// app.use("/", warehouseRouter);
-
 app.use("/api/inventories", inventoryRouter);
 app.use("/api/warehouses", warehouseRouter);
 
