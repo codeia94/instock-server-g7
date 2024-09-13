@@ -10,8 +10,8 @@ app.use(cors());
 app.use(express.json());
 
 
-app.use("/api/inventories", inventoryRouter);
-app.use("/api/warehouses", warehouseRouter);
+app.use("/instock-client/inventories", inventoryRouter);
+app.use("/instock-client/warehouses", warehouseRouter);
 
 
 app.listen(port, () => {
